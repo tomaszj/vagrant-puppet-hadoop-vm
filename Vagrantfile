@@ -77,8 +77,12 @@ Vagrant.configure("2") do |config|
   #  end
 
   config.vm.define :master do |master_config|
-    master_config.vm.network :private_network, ip: "192.168.2.10"
+    master_config.vm.network :public_network
     master_config.vm.hostname = "master"
+  end
+
+  config.vm.define :data_node do |node_config|
+    node_config.vm.network :public_network
   end
 
 end
