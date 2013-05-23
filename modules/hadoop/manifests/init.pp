@@ -1,5 +1,6 @@
 class hadoop {
   $hadoop_home = "/usr/local/hadoop"
+  $master_ip = "192.168.2.10"
 
   exec { "download_hadoop":
     command => "wget -O /tmp/hadoop.tar.gz http://ftp.ps.pl/pub/apache/hadoop/core/hadoop-1.1.2/hadoop-1.1.2.tar.gz",
@@ -34,4 +35,31 @@ class hadoop {
     group => hadoop,
     require => Exec["simplify_hadoop"]
   }
+
+  file {
+    "${hadoop_home}/conf/core-site.xml":
+    content => template("hadoop/core-site.xml.erb"),
+    mode => 644,
+    owner => hduser,
+    group => hadoop,
+    require => Exec["simplify_hadoop"]
+   }
+   
+  file {
+    "${hadoop_home}/conf/mapred-site.xml":
+    content => template("hadoop/mapred-site.xml.erb"),
+    mode => 644,
+    owner => hduser,
+    group => hadoop,
+    require => Exec["simplify_hadoop"]
+   }
+   
+   file {
+    "${hadoop_home}/conf/hdfs-site.xml":
+    content => template("hadoop/hdfs-site.xml.erb"),
+    mode => 644,
+    owner => hduser,
+    group => hadoop,
+    require => Exec["simplify_hadoop"]
+   }
 }
