@@ -2,6 +2,10 @@ class hadoop {
   $hadoop_home = "/usr/local/hadoop"
   $master_ip = "192.168.2.10"
 
+  $hadoop_tmp_parent_folder = "/app/hadoop"
+  $hadoop_tmp_folder_name = "tmp"
+  $hadoop_tmp_path = "${hadoop_tmp_parent_folder}/${hadoop_tmp_folder_name}"
+
   exec { "download_hadoop":
     command => "wget -O /tmp/hadoop.tar.gz http://ftp.ps.pl/pub/apache/hadoop/core/hadoop-1.1.2/hadoop-1.1.2.tar.gz",
     path => $path,
@@ -25,6 +29,20 @@ class hadoop {
 
   file { "/etc/profile.d/hadoop_home.sh":
     source => "puppet:///modules/hadoop/hadoop_home.sh" 
+  }
+
+  exec { "create_hadoop_tmp_folder":
+    command => "mkdir -p ${hadoop_tmp_parent_folder}",
+    path => $path,
+    creates => "${hadoop_tmp_parent_folder}"
+  }
+
+  file { "${hadoop_tmp_path}":
+    ensure => directory,
+    mode => 750,
+    owner => hduser,
+    group => hadoop,
+    require => Exec["create_hadoop_tmp_folder"]
   }
 
   file {

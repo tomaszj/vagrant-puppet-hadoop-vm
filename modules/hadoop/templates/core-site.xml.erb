@@ -2,6 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
  <configuration>
   <property>
+   <name>hadoop.tmp.dir</name>
+   <value><%= hadoop_tmp_path %></value>
+   <description>A base for other temporary directories.</description>
+  </property>
+  <property>
    <name>fs.default.name</name>
    <value>hdfs://<%= master_ip  %>:9000</value>
    <description>The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation.</description>
