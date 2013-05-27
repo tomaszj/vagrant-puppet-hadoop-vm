@@ -15,6 +15,10 @@ package { "openjdk-6-jdk":
   require => Exec['apt-get update']
 }
 
+if $hostname == "master" {
+  include master_server
+}
+
 group { "hadoop":
   ensure => present
 }

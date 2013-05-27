@@ -1,6 +1,6 @@
 class hadoop {
   $hadoop_home = "/usr/local/hadoop"
-  $master_ip = "192.168.2.10"
+  $master_ip = "192.168.0.109"
 
   $hadoop_tmp_parent_folder = "/app/hadoop"
   $hadoop_tmp_folder_name = "tmp"
@@ -16,7 +16,7 @@ class hadoop {
   exec { "unpack_hadoop":
     command => "tar -xzf /tmp/hadoop.tar.gz -C /usr/local",
     path => $path,
-    creates => "${hadoop_home}-1.1.2",
+    unless => "ls /usr/local | grep hadoop",
     require => Exec["download_hadoop"]
   }
 
