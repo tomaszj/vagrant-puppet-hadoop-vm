@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Extract the IP address from ifconfig
+ip_addr=`ifconfig eth1 | grep inet | head -1 | sed 's/\:/ /'|awk '{print $3}'`
+echo "Extracted IP address:$ip_addr"
+
+hostname=`hostname`
+echo "Hostname: $hostname"
+
+master_ip_addr=$1
+if [ -z "$1" ]
+  then master_ip_addr=$ip_addr
+else
+  echo 'Connecting to master server:$master_ip_addr'
+fi
+
+# Perform the registration request
+curl -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"node\":{\"host_name\":\"$hostname\", \"ip\":\"$ip_addr\"}}" http://$master_ip_addr:4567/nodes.json
+

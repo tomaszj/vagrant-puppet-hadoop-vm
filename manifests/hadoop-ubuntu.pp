@@ -1,4 +1,5 @@
 include hadoop
+include master_server_client
 
 group { "puppet":
   ensure => "present"
@@ -26,7 +27,7 @@ group { "hadoop":
 user { "hduser":
   ensure => present,
   managehome => true,
-  groups => "hadoop",
+  groups => ["hadoop"],
   shell => "/bin/bash"
 }
 
