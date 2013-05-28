@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This script fetches a generated /etc/hosts file from the service
+
+master_ip_addr=$1
+if [ -z "$1" ]
+  then master_ip_addr='localhost'
+else
+  echo 'Connecting to master server:$master_ip_addr'
+fi
+
+# Perform the request
+curl http://$master_ip_addr:4567/hosts > /tmp/hosts
+sudo mv /etc/hosts /etc/hosts.bak
+sudo cp /tmp/hosts /etc/hosts
